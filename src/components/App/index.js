@@ -8,14 +8,14 @@ import Landing from "../Landing";
 import Navigation from '../Navigation';
 import PasswordForget from "../PasswordForget";
 import SignIn from "../SignIn";
-import SignUp from "../SignUp";
+import SingUpPage from "../SignUp";
 const App = () => (
 	<Router>
 		<Navigation />
 
 		<hr/>
 		<Route exact path={ROUTES.LANDING} component={Landing}/>
-		<Route path={ROUTES.SIGN_UP} component={SignUp}/>
+		<Route path={ROUTES.SIGN_UP} component={SingUpPage}/>
 		<Route path={ROUTES.SIGN_IN} component={SignIn}/>
 		<Route path={ROUTES.PASSWORD_FORGET} component={PasswordForget}/>
 		<Route path={ROUTES.HOME} component={Home}/>
