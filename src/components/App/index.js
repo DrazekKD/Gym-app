@@ -7,7 +7,7 @@ import Home from "../Home";
 import Landing from "../Landing";
 import Navigation from '../Navigation';
 import PasswordForget from "../PasswordForget";
-import SignIn from "../SignIn";
+import SignInPage from "../SignIn";
 import SingUpPage from "../SignUp";
 const App = () => (
 	<Router>
@@ -16,7 +16,7 @@ const App = () => (
 		<hr/>
 		<Route exact path={ROUTES.LANDING} component={Landing}/>
 		<Route path={ROUTES.SIGN_UP} component={SingUpPage}/>
-		<Route path={ROUTES.SIGN_IN} component={SignIn}/>
+		<Route path={ROUTES.SIGN_IN} component={SignInPage}/>
 		<Route path={ROUTES.PASSWORD_FORGET} component={PasswordForget}/>
 		<Route path={ROUTES.HOME} component={Home}/>
 		<Route path={ROUTES.ACCOUNT} component={Account}/>
