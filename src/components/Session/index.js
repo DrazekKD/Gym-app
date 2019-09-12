@@ -1,11 +1,4 @@
-import React from 'react';
+import AuthUserContext from "./context";
 
-const Session = () => {
-	return (
-		<div>
-
-		</div>
-	);
-};
-
-export default Session;
+import withAuthentication from './withAuthentication';
+export { AuthUserContext, withAuthentication };
