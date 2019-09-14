@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router,Route} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
-import Account from "../Account";
+import AccountPage from "../Account";
 import Admin from "../Admin";
 import Home from "../Home";
 import Landing from "../Landing";
@@ -22,7 +22,7 @@ const App = () =>(
 			<Route path={ROUTES.SIGN_IN} component={SignInPage}/>
 			<Route path={ROUTES.PASSWORD_FORGET} component={PasswordForget}/>
 			<Route path={ROUTES.HOME} component={Home}/>
-			<Route path={ROUTES.ACCOUNT} component={Account}/>
+			<Route path={ROUTES.ACCOUNT} component={AccountPage}/>
 			<Route path={ROUTES.ADMIN} component={Admin}/>
 			<Route/>
 		</Router>

@@ -25,7 +25,7 @@ class PasswordForgetBase extends Component{
 
 
 	onSubmit = event => {
-		const { email } = this.state
+		const { email } = this.state;
 
 		this.props.firebase
 			.doPasswordReset(email)

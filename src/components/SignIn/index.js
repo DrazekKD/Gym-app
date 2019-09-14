@@ -75,7 +75,7 @@ class SignInFormBase extends Component{
 					Sign In
 				</button>
 
-				{error && <p>{error.massage}</p>}
+				{error && <p>{error.message}</p>}
 			</form>
 		)
 	}
