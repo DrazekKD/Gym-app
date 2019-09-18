@@ -1,6 +1,7 @@
 import React from 'react';
 
-import AuthUserContext from './context';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 
 const needsEmailVerification = authUser =>
@@ -25,10 +26,7 @@ const withEmailVerification = Component => {
 		};
 
 		render() {
-			return (
-				<AuthUserContext.Consumer>
-					{authUser =>
-						needsEmailVerification(authUser) ? (
+			return needsEmailVerification(this.props.authUser) ? (
 							<div>
 								{this.state.isSent ? (
 									<p>
@@ -55,13 +53,17 @@ const withEmailVerification = Component => {
 						) : (
 							<Component {...this.props} />
 						)
-					}
-				</AuthUserContext.Consumer>
-			);
+
 		}
 	}
 
-	return withFirebase(WithEmailVerification);
+	const mapStateToProps = state => ({
+		authUser: state.sessionState.authUser,
+	});
+	return compose(
+		withFirebase,
+		connect(mapStateToProps),
+	)(WithEmailVerification);
 };
 
 export default withEmailVerification;
