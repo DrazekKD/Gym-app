@@ -44,7 +44,7 @@ class TrainingPlansFormBase extends Component {
 			.push({nameNewTraining})
 			.then(() => {
 				this.setState({nameNewTraining: ''})
-				this.props.history.push(ROUTES.HOME);
+				this.props.history.push(`${ROUTES.TRAINING_PLAN}/${this.props.authUser.uid}`);
 
 			})
 			.catch(error => this.setState({error}));
