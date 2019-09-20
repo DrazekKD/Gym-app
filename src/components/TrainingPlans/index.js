@@ -1,73 +1,74 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
+import * as ROUTES from "../../constants/routes";
 import { withFirebase } from "../Firebase";
 import { connect } from 'react-redux';
 import { withAuthorization, withEmailVerification } from '../Session'
-import Exercises from '../Exercises';
-
+import { Link, withRouter } from 'react-router-dom';
 const TrainingPlansPage = ({authUser}) => (<TrainingPlansForm authUser={authUser}/>);
 
 const INITIAL_STATE = {
-	name: '',
-	quantityExercises: 0,
+	nameNewTraining: '',
+	userTrainingPlans:[],
+	loading: false,
 	error: null
 };
 class TrainingPlansFormBase extends Component {
 	constructor(props) {
 		super(props);
-
 		this.state = { ...INITIAL_STATE };
-
-
 	}
 
+	componentDidMount() {
+		this.setState({ landing: true });
+
+		this.props.firebase.trainingPlan(this.props.authUser.uid)
+			.once('value')
+			.then(snapshot => {
+				const trainingPlansObject = snapshot.val() || {}  ;
+
+				const trainingPlansList = Object.keys(trainingPlansObject).map(key => ({
+					...trainingPlansObject[key],
+					uid:key
+				}));
+
+				this.setState({userTrainingPlans: trainingPlansList})
+			})
+	}
+
+
 	onSubmit = event => {
-		const { name } = this.state;
+		const { nameNewTraining } = this.state;
 		event.preventDefault();
 		this.props.firebase.trainingPlan(this.props.authUser.uid)
-			.push({name})
-			.then(() => this.setState({...INITIAL_STATE}))
+			.push({nameNewTraining})
+			.then(() => {
+				this.setState({nameNewTraining: ''})
+				this.props.history.push(ROUTES.HOME);
+
+			})
 			.catch(error => this.setState({error}));
 	};
 
 	onChange = event => this.setState( { [event.target.name]: event.target.value } );
 
-	incrementExercises = () => {
-
-		this.setState( {
-			quantityExercises: this.state.quantityExercises + 1
-
-		});
-	}
-
-
-	decrementExercises = () => this.setState( { quantityExercises: this.state.quantityExercises - 1 });
 
 	render() {
-		const {name ,error} = this.state;
+		const {nameNewTraining ,error, userTrainingPlans} = this.state;
 
-		const isInValid = name === '';
-
-		const exercisesForms = [];
-		for (var i = 0; i < this.state.quantityExercises; i += 1) {
-			exercisesForms.push(<Exercises key={i}/>);
-		};
-
+		const isInValid = nameNewTraining === '';
+		console.log(userTrainingPlans[0]);
 		return (
 			<div>
 				<form onSubmit={this.onSubmit}>
 					<input
 						type="text"
-						name="name"
+						name="nameNewTraining"
 						onChange={this.onChange}
-						value={name}
+						value={nameNewTraining}
 						placeholder="Training Name"/>
-					<button  type="button" onClick={this.incrementExercises}>
-						Add Exercises
-					</button>
-					{exercisesForms}
 					<button type="submit" disabled={isInValid}>
-						Save New Training
+						Create Training
 					</button>
 					{error && <p>{error.message}</p>}
 				</form>
@@ -83,7 +84,7 @@ const mapStateToProps = state => ({
 
 const condition = authUser => !!authUser;
 
-const TrainingPlansForm = compose(withFirebase)(TrainingPlansFormBase);
+const TrainingPlansForm = compose(withRouter,withFirebase)(TrainingPlansFormBase);
 
 export {TrainingPlansForm}
 
