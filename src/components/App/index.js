@@ -9,6 +9,7 @@ import Navigation from '../Navigation';
 import PasswordForget from "../PasswordForget";
 import SignInPage from "../SignIn";
 import SingUpPage from "../SignUp";
+import TrainingPlansPage from "../TrainingPlans";
 import {withAuthentication} from '../Session'
 
 
@@ -24,7 +25,7 @@ const App = () =>(
 			<Route path={ROUTES.HOME} component={HomePage}/>
 			<Route path={ROUTES.ACCOUNT} component={AccountPage}/>
 			<Route path={ROUTES.ADMIN} component={Admin}/>
-			<Route/>
+			<Route path={ROUTES.TRAINING_PLANS} component={TrainingPlansPage}/>
 		</Router>
 );
 export default withAuthentication(App);
