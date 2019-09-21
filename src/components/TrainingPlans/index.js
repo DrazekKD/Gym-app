@@ -22,7 +22,7 @@ class TrainingPlansFormBase extends Component {
 	componentDidMount() {
 		this.setState({ landing: true });
 
-		this.props.firebase.trainingPlan(this.props.authUser.uid)
+		this.props.firebase.trainingPlans(this.props.authUser.uid)
 			.once('value')
 			.then(snapshot => {
 				const trainingPlansObject = snapshot.val() || {}  ;
@@ -40,11 +40,11 @@ class TrainingPlansFormBase extends Component {
 	onSubmit = event => {
 		const { nameNewTraining } = this.state;
 		event.preventDefault();
-		this.props.firebase.trainingPlan(this.props.authUser.uid)
-			.push({nameNewTraining})
-			.then(() => {
-				this.setState({nameNewTraining: ''})
-				this.props.history.push(`${ROUTES.TRAINING_PLAN}/${this.props.authUser.uid}`);
+		this.props.firebase.trainingPlans(this.props.authUser.uid)
+			.push({ nameTraining:nameNewTraining })
+			.then(snapshot => {
+				this.setState({nameNewTraining: ''});
+				this.props.history.push(`${ROUTES.TRAINING_PLAN}/${snapshot.key}`);
 
 			})
 			.catch(error => this.setState({error}));
@@ -55,7 +55,6 @@ class TrainingPlansFormBase extends Component {
 
 	render() {
 		const {nameNewTraining ,error, userTrainingPlans} = this.state;
-
 		const isInValid = nameNewTraining === '';
 		console.log(userTrainingPlans[0]);
 		return (
@@ -70,6 +69,9 @@ class TrainingPlansFormBase extends Component {
 					<button type="submit" disabled={isInValid}>
 						Create Training
 					</button>
+					{userTrainingPlans.map(trainingPlan =>(
+						<p key={trainingPlan.uid}>{trainingPlan.nameTraining} {trainingPlan.uid}</p>
+					))}
 					{error && <p>{error.message}</p>}
 				</form>
 			</div>

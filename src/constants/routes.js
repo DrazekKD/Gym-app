@@ -7,3 +7,4 @@ export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const TRAINING_PLANS = '/training-plans';
 export const TRAINING_PLAN = '/training-plan';
+export const TRAINING_PLAN_ID = '/training-plan/:id';

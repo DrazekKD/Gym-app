@@ -87,7 +87,10 @@ class Firebase {
 
 	//Plans Training Database
 
-	trainingPlan = uid => this.db.ref(`trainingPlan/${uid}`);
+	trainingPlans = uid => this.db.ref(`trainingPlan/${uid}`);
+	trainingPlan = (uid, planId) => this.db.ref(`trainingPlan/${uid}/${planId}`);
+	trainingPlanExercises = (uid, planId) => this.db.ref(`trainingPlan/${uid}/${planId}/exercises`);
+	trainingPlanExercise =(uid, planId, exerciseId) =>this.db.ref(`trainingPlan/${uid}/${planId}/exercises/${exerciseId}`);
 }
 
 export default Firebase;
