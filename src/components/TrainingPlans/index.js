@@ -3,8 +3,8 @@ import { compose } from 'recompose';
 import * as ROUTES from "../../constants/routes";
 import { withFirebase } from "../Firebase";
 import { connect } from 'react-redux';
-import { withAuthorization, withEmailVerification } from '../Session'
-import { Link, withRouter } from 'react-router-dom';
+import { withAuthorization, withEmailVerification } from '../Session';
+import { Switch, withRouter,Link, Route } from 'react-router-dom';
 const TrainingPlansPage = ({authUser}) => (<TrainingPlansForm authUser={authUser}/>);
 
 const INITIAL_STATE = {
@@ -70,7 +70,11 @@ class TrainingPlansFormBase extends Component {
 						Create Training
 					</button>
 					{userTrainingPlans.map(trainingPlan =>(
-						<p key={trainingPlan.uid}>{trainingPlan.nameTraining} {trainingPlan.uid}</p>
+						<Link
+							to={`${ROUTES.TRAINING_PLAN}/${trainingPlan.uid}`}
+							key={trainingPlan.uid}>
+							<p>{trainingPlan.nameTraining} {trainingPlan.uid}</p>
+						</Link>
 					))}
 					{error && <p>{error.message}</p>}
 				</form>

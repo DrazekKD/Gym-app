@@ -50,6 +50,10 @@ class TrainingPlanFormBase extends Component {
 			})
 	}
 
+	componentWillUnmount() {
+		this.props.firebase.trainingPlan().off();
+	}
+
 	addExercises = () => {
 		this.props.firebase.trainingPlanExercises(this.props.authUser.uid, this.state.idPlan)
 			.push({ ...INITIAL_EXERCISE })
@@ -59,8 +63,10 @@ class TrainingPlanFormBase extends Component {
 	deleteExercises = (exerciseId) => {
 		this.props.firebase
 			.trainingPlanExercise(this.props.authUser.uid, this.state.idPlan, exerciseId)
-			.remove(e => console.log(e))
+			.remove()
+			.catch(error => this.setState({error}))
 	};
+
 
 	render() {
 		const {nameTraining,trainingPlanExercises} = this.state;
@@ -74,6 +80,8 @@ class TrainingPlanFormBase extends Component {
 					<Exercises
 						key={exercise.id}
 						id={exercise.id}
+						uid={this.props.authUser.uid}
+						idPlan={this.state.idPlan}
 						deleteExercise={() => this.deleteExercises(exercise.id)}/>
 				))}
 			</div>

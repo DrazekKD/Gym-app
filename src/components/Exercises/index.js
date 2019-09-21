@@ -11,8 +11,25 @@ class Exercises extends Component{
 		this.state = { ...INITIAL_STATE }
 	}
 
+	componentDidMount(){
+
+		this.props.firebase.trainingPlanExercise(this.props.uid, this.props.idPlan, this.props.id)
+			.once('value')
+			.then(snapshot => {
+				const exerciseObject = snapshot.val()
+				Object.keys(exerciseObject).map(key => (
+					this.setState({[key]:exerciseObject[key]})
+				));
+			})
+	}
+
 	onChange = event => this.setState( { [event.target.name]: event.target.value } );
 
+	setChangeExercises = event => {
+		this.props.firebase
+			.trainingPlanExercise(this.props.uid, this.props.idPlan, this.props.id)
+			.update({ [event.target.name]: event.target.value})
+	};
 
 	render() {
 		const {name ,moves, series} = this.state;
@@ -23,6 +40,7 @@ class Exercises extends Component{
 					name="name"
 					value={name}
 					onChange={this.onChange}
+					onBlur={this.setChangeExercises}
 					placeholder="Exercises Name"
 				/>
 				<input
@@ -30,6 +48,7 @@ class Exercises extends Component{
 					name="moves"
 					value={moves}
 					onChange={this.onChange}
+					onBlur={this.setChangeExercises}
 					placeholder="Number of movies in the series"
 				/>
 				<input
@@ -37,6 +56,7 @@ class Exercises extends Component{
 					name="series"
 					value={series}
 					onChange={this.onChange}
+					onBlur={this.setChangeExercises}
 					placeholder="Number of series"/>
 
 				<button type="button" onClick={this.props.deleteExercise}>
@@ -49,4 +69,4 @@ class Exercises extends Component{
 
 }
 
-export default Exercises;
+export default withFirebase(Exercises);
