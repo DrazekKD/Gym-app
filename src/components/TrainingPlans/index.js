@@ -4,7 +4,7 @@ import * as ROUTES from "../../constants/routes";
 import { withFirebase } from "../Firebase";
 import { connect } from 'react-redux';
 import { withAuthorization, withEmailVerification } from '../Session';
-import { Switch, withRouter,Link, Route } from 'react-router-dom';
+import {withRouter,Link } from 'react-router-dom';
 const TrainingPlansPage = ({authUser}) => (<TrainingPlansForm authUser={authUser}/>);
 
 const INITIAL_STATE = {
@@ -84,6 +84,10 @@ class TrainingPlansFormBase extends Component {
 							<Link
 								to={`${ROUTES.TRAINING_PLAN}/${trainingPlan.uid}`}>
 								<p>{trainingPlan.nameTraining} {trainingPlan.uid}</p>
+							</Link>
+							<Link
+								to={`${ROUTES.TRAINING_PLAN_GO_TRAINING}/${trainingPlan.uid}`}>
+								<button type="button">Go Training</button>
 							</Link>
 							<button
 								type="button"

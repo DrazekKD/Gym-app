@@ -44,7 +44,7 @@ class Exercises extends Component{
 					placeholder="Exercises Name"
 				/>
 				<input
-					type="text"
+					type="number"
 					name="moves"
 					value={moves}
 					onChange={this.onChange}
@@ -52,7 +52,7 @@ class Exercises extends Component{
 					placeholder="Number of movies in the series"
 				/>
 				<input
-					type="text"
+					type="number"
 					name="series"
 					value={series}
 					onChange={this.onChange}
