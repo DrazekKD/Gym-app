@@ -10,7 +10,7 @@ import PasswordForget from "../PasswordForget";
 import SignInPage from "../SignIn";
 import SingUpPage from "../SignUp";
 import TrainingPlansPage from "../TrainingPlans";
-import TrainingPlanPage from "../TrainingPlanPage";
+import TrainingPlanPage from "../TrainingPlan";
 import {withAuthentication} from '../Session'
 
 

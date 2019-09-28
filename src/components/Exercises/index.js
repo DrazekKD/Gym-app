@@ -16,7 +16,7 @@ class Exercises extends Component{
 		this.props.firebase.trainingPlanExercise(this.props.uid, this.props.idPlan, this.props.id)
 			.once('value')
 			.then(snapshot => {
-				const exerciseObject = snapshot.val()
+				const exerciseObject = snapshot.val();
 				Object.keys(exerciseObject).map(key => (
 					this.setState({[key]:exerciseObject[key]})
 				));

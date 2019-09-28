@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
+import * as ROUTES from "../../constants/routes";
 import { withFirebase } from "../Firebase";
 import { connect } from 'react-redux';
 import { withAuthorization, withEmailVerification } from '../Session'
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Exercises from '../Exercises'
 
 const TrainingPlanPage = ({authUser}) => (<TrainingPlanForm authUser={authUser}/>);
@@ -12,7 +13,8 @@ const INITIAL_STATE = {
 	nameTraining: '',
 	trainingPlanExercises:[],
 	idPlan: null,
-	error: null
+	error: null,
+	loading:false,
 };
 
 const INITIAL_EXERCISE = {
@@ -32,21 +34,28 @@ class TrainingPlanFormBase extends Component {
 
 	componentDidMount(){
 
+		this.setState({ loading:true });
+
 		this.props.firebase.trainingPlan(this.props.authUser.uid, this.state.idPlan)
 			.on('value', snapshot => {
 				const trainingPlanObject = snapshot.val() || {};
-				let trainingPlanExercisesList = null;
 
-				trainingPlanObject.exercises ?
-				 trainingPlanExercisesList = Object.keys(trainingPlanObject.exercises).map(key => ({
-					...trainingPlanObject.exercises[key],
-					id:key
-				})) :  trainingPlanExercisesList = {};
+				if (!!Object.keys(trainingPlanObject).length) {
+					let trainingPlanExercisesList = null;
 
-				this.setState({
-					trainingPlanExercises:trainingPlanExercisesList,
-					nameTraining: trainingPlanObject.nameTraining
-				})
+					trainingPlanObject.exercises ?
+						trainingPlanExercisesList = Object.keys(trainingPlanObject.exercises).map(key => ({
+							...trainingPlanObject.exercises[key],
+							id: key
+						})) : trainingPlanExercisesList = {};
+
+					this.setState({
+						trainingPlanExercises: trainingPlanExercisesList,
+						nameTraining: trainingPlanObject.nameTraining,
+						loading: false
+					})
+				} else this.props.history.push(ROUTES.TRAINING_PLANS);
+
 			})
 	}
 
@@ -69,14 +78,15 @@ class TrainingPlanFormBase extends Component {
 
 
 	render() {
-		const {nameTraining,trainingPlanExercises} = this.state;
+		const {nameTraining,trainingPlanExercises,loading} = this.state;
 		return (
 			<div>
 				{nameTraining}
 				<button type="button" onClick={this.addExercises}>
 					Add Exercises
 				</button>
-				{trainingPlanExercises.length && trainingPlanExercises.map(exercise => (
+				{loading && <div>Loading...</div>}
+				{!!trainingPlanExercises.length && trainingPlanExercises.map(exercise => (
 					<Exercises
 						key={exercise.id}
 						id={exercise.id}

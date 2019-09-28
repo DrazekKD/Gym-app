@@ -52,11 +52,21 @@ class TrainingPlansFormBase extends Component {
 
 	onChange = event => this.setState( { [event.target.name]: event.target.value } );
 
+	deleteTraining = trainingId => {
+		this.props.firebase
+			.trainingPlan(this.props.authUser.uid, trainingId)
+			.remove()
+			.then(() => {
+				const updateUserTrainingPlans = this.state.userTrainingPlans.filter(x => x.uid !== trainingId);
+				this.setState({ userTrainingPlans: updateUserTrainingPlans })
+			})
+			.catch(error => this.setState({error}))
+	};
+
 
 	render() {
 		const {nameNewTraining ,error, userTrainingPlans} = this.state;
 		const isInValid = nameNewTraining === '';
-		console.log(userTrainingPlans[0]);
 		return (
 			<div>
 				<form onSubmit={this.onSubmit}>
@@ -70,11 +80,16 @@ class TrainingPlansFormBase extends Component {
 						Create Training
 					</button>
 					{userTrainingPlans.map(trainingPlan =>(
-						<Link
-							to={`${ROUTES.TRAINING_PLAN}/${trainingPlan.uid}`}
-							key={trainingPlan.uid}>
-							<p>{trainingPlan.nameTraining} {trainingPlan.uid}</p>
-						</Link>
+						<div key={trainingPlan.uid}>
+							<Link
+								to={`${ROUTES.TRAINING_PLAN}/${trainingPlan.uid}`}>
+								<p>{trainingPlan.nameTraining} {trainingPlan.uid}</p>
+							</Link>
+							<button
+								type="button"
+								onClick={() => this.deleteTraining(trainingPlan.uid)}
+							>Delete Training</button>
+						</div>
 					))}
 					{error && <p>{error.message}</p>}
 				</form>
