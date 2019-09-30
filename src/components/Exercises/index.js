@@ -52,7 +52,7 @@ class Exercises extends Component{
 					placeholder="Number of movies in the series"
 				/>
 				<input
-					type="number"
+					type="number	"
 					name="series"
 					value={series}
 					onChange={this.onChange}

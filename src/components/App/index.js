@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router,Route} from 'react-router-dom';
+import { BrowserRouter as Router,Route,Switch} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import AccountPage from "../Account";
 import Admin from "../Admin";
@@ -27,8 +27,10 @@ const App = () =>(
 			<Route path={ROUTES.HOME} component={HomePage}/>
 			<Route path={ROUTES.ACCOUNT} component={AccountPage}/>
 			<Route path={ROUTES.ADMIN} component={Admin}/>
-			<Route path={ROUTES.TRAINING_PLANS} component={TrainingPlansPage}/>
-			<Route path={ROUTES.TRAINING_PLAN} component={TrainingPlanPage}/>
+			<Switch>
+				<Route path={ROUTES.TRAINING_PLAN} component={TrainingPlanPage}/>
+				<Route path={ROUTES.TRAINING_PLANS} component={TrainingPlansPage}/>
+			</Switch>
 			<Route path={ROUTES.TRAINING_PLAN_GO_TRAINING} component={GoTraining}/>
 		</Router>
 );

@@ -49,7 +49,7 @@ class GoTraining extends Component {
 	}
 
 	render() {
-
+console.log(this.props.match)
 		return (
 			<div>
 				{this.state.trainingPlanExercises.map(exercise => (

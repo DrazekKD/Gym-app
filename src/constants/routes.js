@@ -6,5 +6,5 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const TRAINING_PLANS = '/training-plans';
-export const TRAINING_PLAN = '/training-plan';
+export const TRAINING_PLAN = '/training-plans/:id';
 export const TRAINING_PLAN_GO_TRAINING = '/go-training';

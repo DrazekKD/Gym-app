@@ -36,7 +36,7 @@ class TrainingPlanFormBase extends Component {
 
 		this.setState({ loading:true });
 
-		this.props.firebase.trainingPlan(this.props.authUser.uid, this.state.idPlan)
+		this.props.firebase.trainingPlan(this.props.authUser.uid, this.props.match.params.id)
 			.on('value', snapshot => {
 				const trainingPlanObject = snapshot.val() || {};
 
@@ -64,14 +64,14 @@ class TrainingPlanFormBase extends Component {
 	}
 
 	addExercises = () => {
-		this.props.firebase.trainingPlanExercises(this.props.authUser.uid, this.state.idPlan)
+		this.props.firebase.trainingPlanExercises(this.props.authUser.uid, this.props.match.params.id)
 			.push({ ...INITIAL_EXERCISE })
 			.catch(error => this.setState({error}));
 	};
 
 	deleteExercises = (exerciseId) => {
 		this.props.firebase
-			.trainingPlanExercise(this.props.authUser.uid, this.state.idPlan, exerciseId)
+			.trainingPlanExercise(this.props.authUser.uid, this.props.match.params.id, exerciseId)
 			.remove()
 			.catch(error => this.setState({error}))
 	};
@@ -91,7 +91,7 @@ class TrainingPlanFormBase extends Component {
 						key={exercise.id}
 						id={exercise.id}
 						uid={this.props.authUser.uid}
-						idPlan={this.state.idPlan}
+						idPlan={this.props.match.params.id}
 						deleteExercise={() => this.deleteExercises(exercise.id)}/>
 				))}
 			</div>
