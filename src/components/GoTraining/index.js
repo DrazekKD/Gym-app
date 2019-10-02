@@ -29,7 +29,7 @@ class GoTraining extends Component {
 		this.setState({ loading:true });
 		this.props.firebase.trainingPlan(this.props.authUser.uid, this.state.idPlan)
 			.on('value', snapshot => {
-				const trainingPlanObject = snapshot.val()
+				const trainingPlanObject = snapshot.val();
 
 				if (trainingPlanObject) {
 					this.setState({
@@ -42,6 +42,9 @@ class GoTraining extends Component {
 			})
 	}
 
+	componentWillUnmount() {
+		this.props.firebase.trainingPlan(this.props.authUser.uid, this.state.idPlan	).off();
+	}
 	render() {
 		return (
 			<div>
