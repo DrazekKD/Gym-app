@@ -5,6 +5,7 @@ import { withFirebase } from "../Firebase";
 import { connect } from 'react-redux';
 import { withAuthorization, withEmailVerification } from '../Session';
 import {withRouter,Link } from 'react-router-dom';
+import * as Util from '../../util'
 const TrainingPlansPage = ({authUser}) => (<TrainingPlansForm authUser={authUser}/>);
 
 const INITIAL_STATE = {
@@ -25,14 +26,12 @@ class TrainingPlansFormBase extends Component {
 		this.props.firebase.trainingPlans(this.props.authUser.uid)
 			.once('value')
 			.then(snapshot => {
-				const trainingPlansObject = snapshot.val() || {}  ;
+				const trainingPlansObject = snapshot.val();
 
-				const trainingPlansList = Object.keys(trainingPlansObject).map(key => ({
-					...trainingPlansObject[key],
-					uid:key
-				}));
-
-				this.setState({userTrainingPlans: trainingPlansList})
+				trainingPlansObject &&
+					this.setState({
+						userTrainingPlans: Util.getArrayObjectFromFirebase(trainingPlansObject)
+					})
 			})
 	}
 
@@ -81,18 +80,18 @@ class TrainingPlansFormBase extends Component {
 						Create Training
 					</button>
 					{userTrainingPlans.map(trainingPlan =>(
-						<div key={trainingPlan.uid}>
+						<div key={trainingPlan.id}>
 							<Link
-								to={`${this.props.match.url}/${trainingPlan.uid}`}>
-								<p>{trainingPlan.nameTraining} {trainingPlan.uid}</p>
+								to={`${this.props.match.url}/${trainingPlan.id}`}>
+								<p>{trainingPlan.nameTraining} {trainingPlan.id}</p>
 							</Link>
 							<Link
-								to={`${ROUTES.TRAINING_PLAN_GO_TRAINING}/${trainingPlan.uid}`}>
+								to={`${ROUTES.TRAINING_PLAN_GO_TRAINING}/${trainingPlan.id}`}>
 								<button type="button">Go Training</button>
 							</Link>
 							<button
 								type="button"
-								onClick={() => this.deleteTraining(trainingPlan.uid)}
+								onClick={() => this.deleteTraining(trainingPlan.id)}
 							>Delete Training</button>
 						</div>
 					))}

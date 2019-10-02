@@ -1,8 +1,8 @@
-export function getArrayObjectFromFirbase (firabaseObject) {
+export function getArrayObjectFromFirebase (firebaseObject) {
 	let ArrayObject = {};
-		if(firabaseObject) {
-			ArrayObject = Object.keys(firabaseObject).map(key => ({
-				...firabaseObject[key],
+		if(firebaseObject) {
+			ArrayObject = Object.keys(firebaseObject).map(key => ({
+				...firebaseObject[key],
 				id: key
 			}))
 		}

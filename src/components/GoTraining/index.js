@@ -5,6 +5,7 @@ import { withFirebase } from "../Firebase";
 import { connect } from 'react-redux';
 import { withAuthorization, withEmailVerification } from '../Session';
 import {Link, withRouter} from 'react-router-dom';
+import * as Util from '../../util'
 
 const INITIAL_STATE = {
 	nameTraining: '',
@@ -28,18 +29,11 @@ class GoTraining extends Component {
 		this.setState({ loading:true });
 		this.props.firebase.trainingPlan(this.props.authUser.uid, this.state.idPlan)
 			.on('value', snapshot => {
-				const trainingPlanObject = snapshot.val() || {};
-				if (!!Object.keys(trainingPlanObject).length) {
-					let trainingPlanExercisesList = null;
+				const trainingPlanObject = snapshot.val()
 
-					trainingPlanObject.exercises ?
-						trainingPlanExercisesList = Object.keys(trainingPlanObject.exercises).map(key => ({
-							...trainingPlanObject.exercises[key],
-							id: key
-						})) : trainingPlanExercisesList = {};
-
+				if (trainingPlanObject) {
 					this.setState({
-						trainingPlanExercises: trainingPlanExercisesList,
+						trainingPlanExercises: Util.getArrayObjectFromFirebase(trainingPlanObject.exercises),
 						nameTraining: trainingPlanObject.nameTraining,
 						loading: false
 					});

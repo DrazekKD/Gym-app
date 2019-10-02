@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withAuthorization, withEmailVerification } from '../Session'
 import { withRouter } from 'react-router-dom';
 import Exercises from '../Exercises'
-import {getArrayObjectFromFirbase} from '../../util'
+import * as Util from '../../util'
 
 const TrainingPlanPage = ({authUser}) => (<TrainingPlanForm authUser={authUser}/>);
 
@@ -38,16 +38,11 @@ class TrainingPlanFormBase extends Component {
 
 		this.props.firebase.trainingPlan(this.props.authUser.uid, this.props.match.params.id)
 			.on('value', snapshot => {
-				const trainingPlanObject = snapshot.val() || {};
+				const trainingPlanObject = snapshot.val();
 
-				if (!!Object.keys(trainingPlanObject).length) {
-					let trainingPlanExercisesList = null;
-
-					trainingPlanObject.exercises ?
-						trainingPlanExercisesList = getArrayObjectFromFirbase(trainingPlanObject.exercises)
-						: trainingPlanExercisesList = {};
+				if (trainingPlanObject) {
 					this.setState({
-						trainingPlanExercises: trainingPlanExercisesList,
+						trainingPlanExercises: Util.getArrayObjectFromFirebase(trainingPlanObject.exercises),
 						nameTraining: trainingPlanObject.nameTraining,
 						loading: false
 					})
