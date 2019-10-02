@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
-import * as ROUTES from "../../constants/routes";
-import { withFirebase } from "../Firebase";
+import * as ROUTES from "../../../constants/routes";
+import { withFirebase } from "../../Firebase";
 import { connect } from 'react-redux';
-import { withAuthorization, withEmailVerification } from '../Session';
+import { withAuthorization, withEmailVerification } from '../../Session';
 import {withRouter } from 'react-router-dom';
 
 
@@ -21,7 +21,7 @@ class GoExercises extends Component {
 	}
 
 	render() {
-
+		console.log(this.props.match.params)
 		return (
 			<div>
 				GoExercises

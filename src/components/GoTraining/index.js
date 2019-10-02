@@ -49,13 +49,12 @@ class GoTraining extends Component {
 	}
 
 	render() {
-console.log(this.props.match)
 		return (
 			<div>
 				{this.state.trainingPlanExercises.map(exercise => (
 					<Link
 						key={exercise.id}
-						to={`${ROUTES.TRAINING_PLAN_GO_TRAINING}/${this.state.idPlan}/${exercise.id}`}>
+						to={`${this.props.match.url}/${this.state.idPlan}/${exercise.id}`}>
 						<div>
 							{exercise.name},{exercise.moves},{exercise.series}
 						</div>

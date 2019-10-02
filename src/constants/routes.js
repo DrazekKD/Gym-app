@@ -8,3 +8,4 @@ export const PASSWORD_FORGET = '/pw-forget';
 export const TRAINING_PLANS = '/training-plans';
 export const TRAINING_PLAN = '/training-plans/:id';
 export const TRAINING_PLAN_GO_TRAINING = '/go-training';
+export const TRAINING_PLAN_GO_TRAINING_DETAILS= '/go-training/:idPlan/:idExercise';

@@ -67,6 +67,7 @@ class TrainingPlansFormBase extends Component {
 	render() {
 		const {nameNewTraining ,error, userTrainingPlans} = this.state;
 		const isInValid = nameNewTraining === '';
+
 		return (
 			<div>
 				<form onSubmit={this.onSubmit}>

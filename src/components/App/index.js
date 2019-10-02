@@ -12,6 +12,7 @@ import SingUpPage from "../SignUp";
 import TrainingPlansPage from "../TrainingPlans";
 import TrainingPlanPage from "../TrainingPlan";
 import GoTraining from "../GoTraining"
+import GoExercises from "../GoTraining/GoExercises"
 import {withAuthentication} from '../Session'
 
 
@@ -31,7 +32,10 @@ const App = () =>(
 				<Route path={ROUTES.TRAINING_PLAN} component={TrainingPlanPage}/>
 				<Route path={ROUTES.TRAINING_PLANS} component={TrainingPlansPage}/>
 			</Switch>
-			<Route path={ROUTES.TRAINING_PLAN_GO_TRAINING} component={GoTraining}/>
+			<Switch>
+				<Route path={ROUTES.TRAINING_PLAN_GO_TRAINING_DETAILS} component={GoExercises}/>
+				<Route path={ROUTES.TRAINING_PLAN_GO_TRAINING} component={GoTraining}/>
+			</Switch>
 		</Router>
 );
 export default withAuthentication(App);

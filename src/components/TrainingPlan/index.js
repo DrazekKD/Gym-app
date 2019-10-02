@@ -60,7 +60,7 @@ class TrainingPlanFormBase extends Component {
 	}
 
 	componentWillUnmount() {
-		this.props.firebase.trainingPlan().off();
+		this.props.firebase.trainingPlan(this.props.authUser.uid, this.props.match.params.id).off();
 	}
 
 	addExercises = () => {
