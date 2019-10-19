@@ -68,12 +68,24 @@ class TrainingPlanFormBase extends Component {
 			.catch(error => this.setState({error}))
 	};
 
+	onChange = event => this.setState( { [event.target.name]: event.target.value } );
+
+	setChangeTrainingName = event => {
+		this.props.firebase
+			.trainingPlan(this.props.authUser.uid, this.props.match.params.id)
+			.update({ [event.target.name]: event.target.value})
+	};
+
 
 	render() {
 		const {nameTraining,trainingPlanExercises,loading} = this.state;
 		return (
 			<div>
-				{nameTraining}
+				<input type="text"
+					   value={nameTraining}
+					   name="nameTraining"
+					   onChange={this.onChange}
+					   onBlur={this.setChangeTrainingName}/>
 				<button type="button" onClick={this.addExercises}>
 					Add Exercises
 				</button>
