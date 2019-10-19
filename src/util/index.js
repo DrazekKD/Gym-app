@@ -1,4 +1,4 @@
-export function getArrayObjectFromFirebase (firebaseObject) {
+export const getArrayObjectFromFirebase = firebaseObject=>{
 	let ArrayObject = {};
 		if(firebaseObject) {
 			ArrayObject = Object.keys(firebaseObject).map(key => ({
@@ -6,7 +6,7 @@ export function getArrayObjectFromFirebase (firebaseObject) {
 				id: key
 			}))
 		}
-
-
 	return ArrayObject
 }
+
+

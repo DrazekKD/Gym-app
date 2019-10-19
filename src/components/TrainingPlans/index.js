@@ -21,7 +21,7 @@ class TrainingPlansFormBase extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({ landing: true });
+		this.setState({ loading: true });
 
 		this.props.firebase.trainingPlans(this.props.authUser.uid)
 			.once('value')
@@ -30,7 +30,8 @@ class TrainingPlansFormBase extends Component {
 
 				trainingPlansObject &&
 					this.setState({
-						userTrainingPlans: Util.getArrayObjectFromFirebase(trainingPlansObject)
+						userTrainingPlans: Util.getArrayObjectFromFirebase(trainingPlansObject),
+						loading: false
 					})
 			})
 	}
@@ -56,7 +57,7 @@ class TrainingPlansFormBase extends Component {
 			.trainingPlan(this.props.authUser.uid, trainingId)
 			.remove()
 			.then(() => {
-				const updateUserTrainingPlans = this.state.userTrainingPlans.filter(x => x.uid !== trainingId);
+				const updateUserTrainingPlans = this.state.userTrainingPlans.filter(x => x.id !== trainingId);
 				this.setState({ userTrainingPlans: updateUserTrainingPlans })
 			})
 			.catch(error => this.setState({error}))
@@ -64,39 +65,45 @@ class TrainingPlansFormBase extends Component {
 
 
 	render() {
-		const {nameNewTraining ,error, userTrainingPlans} = this.state;
+		const {nameNewTraining ,error, userTrainingPlans, loading} = this.state;
 		const isInValid = nameNewTraining === '';
-
 		return (
 			<div>
-				<form onSubmit={this.onSubmit}>
-					<input
-						type="text"
-						name="nameNewTraining"
-						onChange={this.onChange}
-						value={nameNewTraining}
-						placeholder="Training Name"/>
-					<button type="submit" disabled={isInValid}>
-						Create Training
-					</button>
-					{userTrainingPlans.map(trainingPlan =>(
-						<div key={trainingPlan.id}>
-							<Link
-								to={`${this.props.match.url}/${trainingPlan.id}`}>
-								<p>{trainingPlan.nameTraining} {trainingPlan.id}</p>
-							</Link>
-							<Link
-								to={`${ROUTES.TRAINING_PLAN_GO_TRAINING}/${trainingPlan.id}`}>
-								<button type="button">Go Training</button>
-							</Link>
-							<button
-								type="button"
-								onClick={() => this.deleteTraining(trainingPlan.id)}
-							>Delete Training</button>
-						</div>
-					))}
-					{error && <p>{error.message}</p>}
-				</form>
+				{loading
+					? (
+						<div>Loading...</div>
+					)
+					:(
+						<form onSubmit={this.onSubmit}>
+							<input
+								type="text"
+								name="nameNewTraining"
+								onChange={this.onChange}
+								value={nameNewTraining}
+								placeholder="Training Name"/>
+							<button type="submit" disabled={isInValid}>
+								Create Training
+							</button>
+							{userTrainingPlans.map(trainingPlan =>(
+								<div key={trainingPlan.id}>
+									<Link
+										to={`${this.props.match.url}/${trainingPlan.id}`}>
+										<p>{trainingPlan.nameTraining} {trainingPlan.id}</p>
+									</Link>
+									<Link
+										to={`${ROUTES.TRAINING_PLAN_GO_TRAINING}/${trainingPlan.id}`}>
+										<button type="button">Go Training</button>
+									</Link>
+									<button
+										type="button"
+										onClick={() => this.deleteTraining(trainingPlan.id)}
+									>Delete Training</button>
+								</div>
+							))}
+							{error && <p>{error.message}</p>}
+						</form>
+					)
+				}
 			</div>
 		)
 	}
