@@ -19,7 +19,6 @@ import {withAuthentication} from '../Session'
 const App = () =>(
 		<Router>
 			<Navigation/>
-
 			<hr/>
 			<Route exact path={ROUTES.LANDING} component={Landing}/>
 			<Route path={ROUTES.SIGN_UP} component={SingUpPage}/>
@@ -29,12 +28,9 @@ const App = () =>(
 			<Route path={ROUTES.ACCOUNT} component={AccountPage}/>
 			<Route path={ROUTES.ADMIN} component={Admin}/>
 			<Switch>
+				<Route exact path={ROUTES.TRAINING_PLANS} component={TrainingPlansPage}/>
 				<Route path={ROUTES.TRAINING_PLAN} component={TrainingPlanPage}/>
-				<Route path={ROUTES.TRAINING_PLANS} component={TrainingPlansPage}/>
-			</Switch>
-			<Switch>
-				<Route path={ROUTES.TRAINING_PLAN_GO_TRAINING_DETAILS} component={GoExercises}/>
-				<Route path={ROUTES.TRAINING_PLAN_GO_TRAINING} component={GoTraining}/>
+				<Route path={ROUTES.TRAINING_PLAN_GO_TRAINING_ID} component={GoTraining}/>
 			</Switch>
 		</Router>
 );

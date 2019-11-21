@@ -29,7 +29,6 @@ class TrainingPlanFormBase extends Component {
 		super(props);
 		this.state = {
 			...INITIAL_STATE,
-			idPlan: this.props.history.location.pathname.split('/')[2]
 		};
 	}
 

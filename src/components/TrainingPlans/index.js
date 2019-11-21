@@ -87,7 +87,7 @@ class TrainingPlansFormBase extends Component {
 							{userTrainingPlans.map(trainingPlan =>(
 								<div key={trainingPlan.id}>
 									<Link
-										to={`${this.props.match.url}/${trainingPlan.id}`}>
+										to={`${ROUTES.TRAINING_PLANS}/${trainingPlan.id}`}>
 										<p>{trainingPlan.nameTraining} {trainingPlan.id}</p>
 									</Link>
 									<Link

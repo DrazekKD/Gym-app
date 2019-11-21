@@ -4,7 +4,8 @@ import * as ROUTES from "../../constants/routes";
 import { withFirebase } from "../Firebase";
 import { connect } from 'react-redux';
 import { withAuthorization, withEmailVerification } from '../Session';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, withRouter,Route} from 'react-router-dom';
+import GoExercises from "./GoExercises"
 import * as Util from '../../util'
 
 const INITIAL_STATE = {
@@ -20,14 +21,13 @@ class GoTraining extends Component {
 		super(props);
 		this.state = {
 			...INITIAL_STATE,
-			idPlan: this.props.history.location.pathname.split('/')[2]
 		}
 
 	}
 
 	componentDidMount() {
 		this.setState({ loading:true });
-		this.props.firebase.trainingPlan(this.props.authUser.uid, this.state.idPlan)
+		this.props.firebase.trainingPlan(this.props.authUser.uid, this.props.match.params.id)
 			.on('value', snapshot => {
 				const trainingPlanObject = snapshot.val();
 
@@ -43,7 +43,7 @@ class GoTraining extends Component {
 	}
 
 	componentWillUnmount() {
-		this.props.firebase.trainingPlan(this.props.authUser.uid, this.state.idPlan	).off();
+		this.props.firebase.trainingPlan(this.props.authUser.uid, this.props.match.params.id).off();
 	}
 	render() {
 		return (
@@ -51,12 +51,13 @@ class GoTraining extends Component {
 				{this.state.trainingPlanExercises.map(exercise => (
 					<Link
 						key={exercise.id}
-						to={`${this.props.match.url}/${this.state.idPlan}/${exercise.id}`}>
+						to={`${ROUTES.TRAINING_PLAN_GO_TRAINING}/${this.props.match.params.id}/${exercise.id}`}>
 						<div>
-							{exercise.name},{exercise.moves},{exercise.series}
+							{exercise.name}
 						</div>
 					</Link>
 				))}
+				<Route path={ROUTES.TRAINING_PLAN_GO_TRAINING_DETAILS} component={GoExercises}/>
 			</div>
 		)
 	}

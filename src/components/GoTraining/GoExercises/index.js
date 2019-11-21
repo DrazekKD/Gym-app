@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
-import * as ROUTES from "../../../constants/routes";
 import { withFirebase } from "../../Firebase";
 import { connect } from 'react-redux';
 import { withAuthorization, withEmailVerification } from '../../Session';
@@ -17,11 +16,11 @@ class GoExercises extends Component {
 	}
 
 	componentDidMount() {
-
+		console.log('test');
 	}
 
 	render() {
-		console.log(this.props.match.params)
+		console.log(this.props)
 		return (
 			<div>
 				GoExercises
